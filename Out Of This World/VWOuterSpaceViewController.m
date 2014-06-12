@@ -18,6 +18,24 @@
 
 @implementation VWOuterSpaceViewController
 
+#pragma mark - lazy instatiation
+
+-(NSMutableArray *)planets
+{
+    if(!_planets) {
+        _planets = [[NSMutableArray alloc] init];
+    }
+    return _planets;
+}
+
+-(NSMutableArray *)addedSpaceObjects
+{
+    if(!_addedSpaceObjects) {
+        _addedSpaceObjects = [[NSMutableArray alloc] init];
+    }
+    return _addedSpaceObjects;
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -37,7 +55,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.planets = [[NSMutableArray alloc] init];
+    //self.planets = [[NSMutableArray alloc] init];
     
     for (NSMutableDictionary *planetData in [AstronomicalData allKnownPlanets])
     {
@@ -128,7 +146,7 @@
                 selectedObject = self.planets[path.row];
             } else if(path.section == 1) {
                 selectedObject = self.addedSpaceObjects[path.row];
-            }            
+            }
             //VWSpaceObject *selectedObject = self.planets[path.row];
             
             nextVC.spaceObject = selectedObject;
@@ -224,10 +242,10 @@
 
 -(void)addSpaceObject:(VWSpaceObject *)spaceObject
 {
-    if(!self.addedSpaceObjects)
-    {
-        self.addedSpaceObjects = [[NSMutableArray alloc] init];
-    }
+    //if(!self.addedSpaceObjects)
+    //{
+    //    self.addedSpaceObjects = [[NSMutableArray alloc] init];
+    //}
     [self.addedSpaceObjects addObject:spaceObject];
     
     NSLog(@"addSpaceObject");
