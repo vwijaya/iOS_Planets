@@ -96,7 +96,13 @@
             VWSpageImageViewController *nextVC = segue.destinationViewController;
             
             NSIndexPath *path = [self.tableView indexPathForCell:sender];
-            VWSpaceObject *selectedObject = self.planets[path.row];
+            VWSpaceObject *selectedObject;
+            if(path.section == 0) {
+                selectedObject = self.planets[path.row];
+            } else if(path.section == 1) {
+                selectedObject = self.addedSpaceObjects[path.row];
+            }
+            //VWSpaceObject *selectedObject = self.planets[path.row];
             
             // Passing information to Proxy Properties: nextVC.spaceObject
             nextVC.spaceObject = selectedObject;
@@ -116,10 +122,23 @@
             VWSpaceDataViewController *nextVC = segue.destinationViewController;
 
             NSIndexPath *path = sender; // !!!
-            VWSpaceObject *selectedObject = self.planets[path.row];
+            
+            VWSpaceObject *selectedObject;
+            if(path.section == 0) {
+                selectedObject = self.planets[path.row];
+            } else if(path.section == 1) {
+                selectedObject = self.addedSpaceObjects[path.row];
+            }            
+            //VWSpaceObject *selectedObject = self.planets[path.row];
             
             nextVC.spaceObject = selectedObject;
         }
+    }
+    
+    if([segue.destinationViewController isKindOfClass:[VWAddSpaceViewController class]])
+    {
+        VWAddSpaceViewController *addSpaceObjectVC = segue.destinationViewController;
+        addSpaceObjectVC.delegate = self;
     }
 }
 
@@ -136,7 +155,11 @@
 //#warning Potentially incomplete method implementation.
     // Return the number of sections.
     //return 2;
-    return 1;
+    if ([self.addedSpaceObjects count]) {
+        return 2;
+    } else {
+        return 1;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -149,9 +172,13 @@
 //    } else {
 //        return 2;
 //    }
-    return [self.planets count];
-}
+    if (section == 1) {
+        return [self.addedSpaceObjects count];
+    } else {
+        return [self.planets count];
+    }
 
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -169,17 +196,44 @@
 //    } else {
 //        cell.backgroundColor = [UIColor blueColor];
 //    }
-    
-    VWSpaceObject *planet = [self.planets objectAtIndex:indexPath.row];
-    cell.textLabel.text = planet.name;
-    cell.detailTextLabel.text = planet.nickname;
-    cell.imageView.image = planet.spaceImage;
+    if (indexPath.section == 1) {
+        VWSpaceObject *planet = [self.addedSpaceObjects objectAtIndex:indexPath.row];
+        cell.textLabel.text = planet.name;
+        cell.detailTextLabel.text = planet.nickname;
+        cell.imageView.image = planet.spaceImage;
+    } else {
+        VWSpaceObject *planet = [self.planets objectAtIndex:indexPath.row];
+        cell.textLabel.text = planet.name;
+        cell.detailTextLabel.text = planet.nickname;
+        cell.imageView.image = planet.spaceImage;
+    }
     
     cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.detailTextLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
     
     return cell;
+}
+
+#pragma mark - VWAddSpaceViewControllerDelegate
+-(void)didCancel
+{
+    NSLog(@"didCancel");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)addSpaceObject:(VWSpaceObject *)spaceObject
+{
+    if(!self.addedSpaceObjects)
+    {
+        self.addedSpaceObjects = [[NSMutableArray alloc] init];
+    }
+    [self.addedSpaceObjects addObject:spaceObject];
+    
+    NSLog(@"addSpaceObject");
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate

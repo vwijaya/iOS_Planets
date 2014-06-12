@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0917342C1936EC3C0061205A /* VWAddSpaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0917342B1936EC3C0061205A /* VWAddSpaceViewController.m */; };
 		098CECAD191E9554002D329E /* Earth.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 098CECA3191E9554002D329E /* Earth.jpg */; };
 		098CECAE191E9554002D329E /* EinsteinRing.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 098CECA4191E9554002D329E /* EinsteinRing.jpg */; };
 		098CECAF191E9554002D329E /* Jupiter.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 098CECA5191E9554002D329E /* Jupiter.jpg */; };
@@ -48,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0917342A1936EC3C0061205A /* VWAddSpaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VWAddSpaceViewController.h; sourceTree = "<group>"; };
+		0917342B1936EC3C0061205A /* VWAddSpaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VWAddSpaceViewController.m; sourceTree = "<group>"; };
 		098CECA3191E9554002D329E /* Earth.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Earth.jpg; sourceTree = "<group>"; };
 		098CECA4191E9554002D329E /* EinsteinRing.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = EinsteinRing.jpg; sourceTree = "<group>"; };
 		098CECA5191E9554002D329E /* Jupiter.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Jupiter.jpg; sourceTree = "<group>"; };
@@ -156,6 +159,8 @@
 				09BFDEFC18E5359B007E7BBA /* VWAppDelegate.h */,
 				09BFDEFD18E5359B007E7BBA /* VWAppDelegate.m */,
 				09BFDEFF18E5359B007E7BBA /* Main.storyboard */,
+				0917342A1936EC3C0061205A /* VWAddSpaceViewController.h */,
+				0917342B1936EC3C0061205A /* VWAddSpaceViewController.m */,
 				09C8201B19344CF000B8E008 /* VWSpageImageViewController.h */,
 				09C8201C19344CF000B8E008 /* VWSpageImageViewController.m */,
 				09BFDF2218E5380A007E7BBA /* VWOuterSpaceViewController.h */,
@@ -324,6 +329,7 @@
 				09C8201D19344CF000B8E008 /* VWSpageImageViewController.m in Sources */,
 				09BFDF2418E5380A007E7BBA /* VWOuterSpaceViewController.m in Sources */,
 				09BFDEFE18E5359B007E7BBA /* VWAppDelegate.m in Sources */,
+				0917342C1936EC3C0061205A /* VWAddSpaceViewController.m in Sources */,
 				09BDC8BF18F081DF008F96FC /* AstronomicalData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
