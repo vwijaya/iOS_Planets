@@ -18,6 +18,8 @@
 
 @implementation VWOuterSpaceViewController
 
+#define ADDED_SPACE_OBJECTS_KEY @"Added Space Objects Array"
+
 #pragma mark - lazy instatiation
 
 -(NSMutableArray *)planets
@@ -66,7 +68,12 @@
         [self.planets addObject:planet];
     }
     
-    
+    NSArray *myPlanetsAsPropertyLists = [[NSUserDefaults standardUserDefaults] arrayForKey:ADDED_SPACE_OBJECTS_KEY];
+    for (NSDictionary *dictionary in myPlanetsAsPropertyLists)
+    {
+        VWSpaceObject *spaceObject = [self spaceObjectForDictionary:dictionary];
+        [self.addedSpaceObjects addObject:spaceObject];
+    }
     
     //self.planets = [[NSMutableArray alloc] init];
     
@@ -234,6 +241,7 @@
 }
 
 #pragma mark - VWAddSpaceViewControllerDelegate
+
 -(void)didCancel
 {
     NSLog(@"didCancel");
@@ -248,11 +256,53 @@
     //}
     [self.addedSpaceObjects addObject:spaceObject];
     
-    NSLog(@"addSpaceObject");
+    //NSLog(@"addSpaceObject");
+    
+    // Saving to NSUserDefaults here
+    NSMutableArray *spaceObjectsAsPropertyLists = [[[NSUserDefaults standardUserDefaults] arrayForKey:ADDED_SPACE_OBJECTS_KEY] mutableCopy];
+    
+    if(!spaceObjectsAsPropertyLists)
+        spaceObjectsAsPropertyLists = [[NSMutableArray alloc] init];
+    
+    [spaceObjectsAsPropertyLists addObject:[self spaceObjectAsAPropertyList:spaceObject]];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:spaceObjectsAsPropertyLists forKey:ADDED_SPACE_OBJECTS_KEY];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    
+    
     [self dismissViewControllerAnimated:YES completion:nil];
     
     [self.tableView reloadData];
 }
+
+#pragma mark - helper methods
+
+-(NSDictionary *)spaceObjectAsAPropertyList:(VWSpaceObject *)spaceObject
+{
+    NSData *imageData = UIImagePNGRepresentation(spaceObject.spaceImage);
+    
+    NSDictionary *dictionary = @{PLANET_NAME : spaceObject.name,
+                                 PLANET_GRAVITY : @(spaceObject.gravitationalForce),
+                                 PLANET_DIAMETER : @(spaceObject.diameter),
+                                 PLANET_YEAR_LENGTH : @(spaceObject.yearLength),
+                                 PLANET_DAY_LENGTH : @(spaceObject.dayLength),
+                                 PLANET_TEMPERATURE : @(spaceObject.temperature),
+                                 PLANET_NUMBER_OF_MOONS : @(spaceObject.numberOfMoons),
+                                 PLANET_NICKNAME : spaceObject.nickname,
+                                 PLANET_INTERESTING_FACT : spaceObject.interestFact,
+                                 PLANET_IMAGE : imageData
+                                 };
+    return dictionary;
+}
+
+-(VWSpaceObject *)spaceObjectForDictionary:(NSDictionary *)dictionary
+{
+    VWSpaceObject *spaceObject = [[VWSpaceObject alloc] initWithData:dictionary andImage:[UIImage imageNamed:@"EinsteinRing.jpg"]];
+    return spaceObject;
+}
+
 
 #pragma mark - UITableViewDelegate
 
@@ -261,6 +311,8 @@
     //NSLog(@"accessory button is working properly %i", indexPath.row);
     [self performSegueWithIdentifier:@"Push to space data" sender:indexPath];
 }
+
+
 
 /*
 // Override to support conditional editing of the table view.
