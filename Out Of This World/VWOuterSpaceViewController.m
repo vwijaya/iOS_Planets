@@ -299,7 +299,9 @@
 
 -(VWSpaceObject *)spaceObjectForDictionary:(NSDictionary *)dictionary
 {
-    VWSpaceObject *spaceObject = [[VWSpaceObject alloc] initWithData:dictionary andImage:[UIImage imageNamed:@"EinsteinRing.jpg"]];
+    NSData *dataForImage = dictionary[PLANET_IMAGE];
+    UIImage *spaceObjectImage = [UIImage imageWithData:dataForImage];
+    VWSpaceObject *spaceObject = [[VWSpaceObject alloc] initWithData:dictionary andImage: spaceObjectImage];
     return spaceObject;
 }
 
